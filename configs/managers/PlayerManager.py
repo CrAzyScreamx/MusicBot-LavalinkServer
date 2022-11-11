@@ -46,7 +46,7 @@ class PlayerManager(wavelink.Player):
         elif self._curr is None or not self.loopSong:
             self._curr = self.queue.get()
 
-        await self.ctx.send(embed=self.songProps())
+        await self.ctx.send(embed=self.songProps(), delete_after=float(10))
         await self.play(source=self._curr)
 
     @player.after_loop
