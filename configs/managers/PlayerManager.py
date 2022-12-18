@@ -1,7 +1,6 @@
 import datetime as dt
 import random
 from typing import Any
-import re
 
 import discord
 import validators
@@ -90,6 +89,7 @@ class PlayerManager(wavelink.Player):
             if len(timeTrack) == 2:
                 search = timeTrack[0]
             results = await YouTubeTrack.search(query=search, return_first=True)
+            print(results)
         elif search.startswith("https://open.spotify.com/track/"):
             results = await SpotifyTrack.search(query=search, return_first=True)
         elif search.startswith("https://open.spotify.com/playlist/"):

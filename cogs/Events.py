@@ -38,7 +38,7 @@ class Events(commands.Cog):
     async def connect_node(self):
         await wavelink.NodePool.create_node(
             bot=self.bot,
-            host=os.getenv("NODE_HOST"),
+            host=os.getenv("LOCAL_HOST"),
             port=int(os.getenv("NODE_PORT")),
             password=os.getenv("NODE_PASS"),
             spotify_client=SpotifyClient(

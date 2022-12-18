@@ -9,7 +9,7 @@ from configs.managers.AnnotationChecks import *
 from configs.managers.MessageHandlers import *
 from configs.managers.PlayerManager import PlayerManager
 
-GUILD_IDS = [757857626112655390]
+GUILD_IDS = []
 
 
 class MusicCommands(commands.Cog):
@@ -18,8 +18,7 @@ class MusicCommands(commands.Cog):
         self.bot: discord.Bot = bot
 
     @slash_command(name="join",
-                   description="Joins the channel",
-                   guild_ids=GUILD_IDS)
+                   description="Joins the channel")
     @isBotDisconnected()
     @isAuthorConnected()
     async def _join(self, ctx):
@@ -27,8 +26,7 @@ class MusicCommands(commands.Cog):
         await ctx.author.voice.channel.connect(cls=PlayerManager(ctx))
 
     @slash_command(name="leave",
-                   description="Leaves the channel",
-                   guild_ids=GUILD_IDS)
+                   description="Leaves the channel")
     @isBotConnected()
     @isAuthorConnected()
     async def _leave(self, ctx):
@@ -37,8 +35,7 @@ class MusicCommands(commands.Cog):
         await NodePool.get_node().get_player(ctx.guild).disconnect()
 
     @slash_command(name="play",
-                   description="Plays a song from YT/Spotify/Soundcloud",
-                   guild_ids=GUILD_IDS)
+                   description="Plays a song from YT/Spotify/Soundcloud")
     @isAuthorConnected()
     @option(name="search", type=str, description="Paste YT/Spotify/Soundcloud link or just search")
     async def _play(self, ctx, search):
@@ -52,8 +49,7 @@ class MusicCommands(commands.Cog):
             await sendErrorEmbed(ctx, "URL/Search not supported")
 
     @slash_command(name="pause",
-                   description="Pauses the current playing song",
-                   guild_ids=GUILD_IDS)
+                   description="Pauses the current playing song")
     @isBotPlaying()
     @inSameChannel()
     @isBotConnected()
@@ -64,8 +60,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed(f"⏸   Paused ``{player.curr}``"))
 
     @slash_command(name="resume",
-                   description="Resumes the current playing song",
-                   guild_ids=GUILD_IDS)
+                   description="Resumes the current playing song")
     @isBotPaused()
     @inSameChannel()
     @isBotConnected()
@@ -76,8 +71,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed(f"▶️  Resumed {player.curr}"))
 
     @slash_command(name="nowplaying",
-                   description="Displays the current playing audio",
-                   guild_ids=GUILD_IDS)
+                   description="Displays the current playing audio")
     @isBotPlaying()
     @isAuthorConnected()
     async def _nowplaying(self, ctx):
@@ -85,8 +79,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, player.songProps("Now Playing"))
 
     @slash_command(name="loopsong",
-                   description="Loops the current Song",
-                   guild_ids=GUILD_IDS)
+                   description="Loops the current Song")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -99,8 +92,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed("🔁 Cancelled loop"))
 
     @slash_command(name="clear",
-                   description="Clears the current queue",
-                   guild_ids=GUILD_IDS)
+                   description="Clears the current queue")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -112,8 +104,7 @@ class MusicCommands(commands.Cog):
         return await sendErrorEmbed(ctx, "Error clearing the queue")
 
     @slash_command(name="delete",
-                   description="Delete song at position x in the queue",
-                   guild_ids=GUILD_IDS)
+                   description="Delete song at position x in the queue")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -127,8 +118,7 @@ class MusicCommands(commands.Cog):
         await sendErrorEmbed(ctx, f"Couldn't delete song at position ``{pos}``")
 
     @slash_command(name="shuffle",
-                   description="Shuffles the current Queue",
-                   guild_ids=GUILD_IDS)
+                   description="Shuffles the current Queue")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -139,8 +129,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed("🔀 Shuffled the queue"))
 
     @slash_command(name="skip",
-                   description="Skips the current song",
-                   guild_ids=GUILD_IDS)
+                   description="Skips the current song")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -151,8 +140,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed(f"⏭ Skipped song ``{track.title}``"))
 
     @slash_command(name="back",
-                   description="Goes back to previous song",
-                   guild_ids=GUILD_IDS)
+                   description="Goes back to previous song")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -163,8 +151,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed(f"⏮ Stopped ``{track.title}`` Returning to previous"))
 
     @slash_command(name="loopqueue",
-                   description="Loop the queue",
-                   guild_ids=GUILD_IDS)
+                   description="Loop the queue")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -177,8 +164,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed("🔁 Cancelled loop"))
 
     @slash_command(name="removedupes",
-                   description="Remove Song duplicates",
-                   guild_ids=GUILD_IDS)
+                   description="Remove Song duplicates")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -189,8 +175,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed("Removed all duplicated songs"))
 
     @slash_command(name="seek",
-                   description="Seek to a current position in the queue",
-                   guild_ids=GUILD_IDS)
+                   description="Seek to a current position in the queue")
     @commands.check_any(isBotPlaying(), isBotPaused())
     @inSameChannel()
     @isBotConnected()
@@ -212,8 +197,7 @@ class MusicCommands(commands.Cog):
         return await sendEphemeral(ctx, createMessageEmbed(f"🔄 Seeked to position {pos}"))
 
     @slash_command(name="queue",
-                   description="Presents the current queue",
-                   guild_ids=GUILD_IDS)
+                   description="Presents the current queue")
     @commands.check_any(isBotPlaying(), isBotPaused())
     async def _queue(self, ctx):
         player = NodePool.get_node().get_player(ctx.guild)
