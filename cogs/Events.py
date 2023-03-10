@@ -36,9 +36,15 @@ class Events(commands.Cog):
 
     # Connect the node to the system
     async def connect_node(self):
+        await self.__connectDebugger(os.getenv("NODE_HOST"))
+        if not wavelink.NodePool.get_node().is_connected():
+            print("Can't connect to the host locally, connecting to a remote node...")
+            await self.__connectDebugger(os.getenv("NODE_HOST"))
+
+    async def __connectDebugger(self, host):
         await wavelink.NodePool.create_node(
             bot=self.bot,
-            host=os.getenv("LOCAL_HOST"),
+            host=host,
             port=int(os.getenv("NODE_PORT")),
             password=os.getenv("NODE_PASS"),
             spotify_client=SpotifyClient(

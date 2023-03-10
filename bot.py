@@ -10,4 +10,4 @@ bot = discord.Bot(description="Music bot to fulfill your needs", intents=discord
 
 if __name__ == "__main__":
     bot.load_extension("cogs")
-    bot.run(os.getenv("TOKEN"))
+    bot.run(os.getenv("DEV_TOKEN"))

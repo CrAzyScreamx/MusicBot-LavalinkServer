@@ -52,7 +52,6 @@ class PlayerManager(wavelink.Player):
     async def player_after(self):
         if self.queue.is_empty and not self.goBack:
             if not self.loop:
-                self.cleanup()
                 await self.disconnect()
                 return
             print(self.queue.history)
