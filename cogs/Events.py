@@ -36,7 +36,7 @@ class Events(commands.Cog):
 
     # Connect the node to the system
     async def connect_node(self):
-        await self.__connectDebugger(os.getenv("NODE_HOST"))
+        await self.__connectDebugger(os.getenv("LOCAL_HOST"))
         if not wavelink.NodePool.get_node().is_connected():
             print("Can't connect to the host locally, connecting to a remote node...")
             await self.__connectDebugger(os.getenv("NODE_HOST"))
